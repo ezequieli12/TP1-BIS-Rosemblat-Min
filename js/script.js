@@ -50,9 +50,54 @@ function ValidarForm(event)
 }
 function CalcularPromedio()
 {
-    var Matematica = document.getElementById("Matematica");
-    var Lengua = document.getElementById("Matematica");
-    var EFSI = document.getElementById("Matematica");
-    Promedio=  (EFSI.value + Lengua.value + Matematica.value) / 3;
+    let Mensaje = document.getElementById("Resultado");
+    var Matematica = parseFloat(document.getElementById("Matematica").value);
+    var Lengua = parseFloat(document.getElementById("Lengua").value);
+    var EFSI = parseFloat(document.getElementById("EFSI").value);
+    var Promedio =  (Matematica  + Lengua + EFSI)/ 3;
+    Mensaje.innerHTML = "El resultado es " + Promedio;
 } 
+function NotaMasAlta()
+{
+    let Mensaje = document.getElementById("MensajeFin");
+    var Matematica = parseFloat(document.getElementById("Matematica").value);
+    var Lengua = parseFloat(document.getElementById("Lengua").value);
+    var EFSI = parseFloat(document.getElementById("EFSI").value);
+    
+    let caso = (Matematica === Lengua && Matematica === EFSI) ? "todas_iguales" :
+               (Matematica > Lengua && Matematica > EFSI) ? "matematica" :
+               (Lengua > Matematica && Lengua > EFSI) ? "lengua" :
+               (EFSI > Matematica && EFSI > Lengua) ? "efsi" :
+               (Matematica === Lengua && Matematica > EFSI) ? "matematica_lengua" :
+               (Matematica === EFSI && Matematica > Lengua) ? "matematica_efsi" :
+               (Lengua === EFSI && Lengua > Matematica) ? "lengua_efsi" :
+               "ninguno"; 
+
+    switch (caso)
+    {
+        case "todas_iguales":
+            Mensaje.innerHTML = "Todas las notas son iguales";
+            break;
+        case "matematica":
+            Mensaje.innerHTML = "La nota más alta es Matemática";
+            break;
+        case "lengua":
+            Mensaje.innerHTML = "La nota más alta es Lengua";
+            break;
+        case "efsi":
+            Mensaje.innerHTML = "La nota más alta es EFSI";
+            break;
+        case "matematica_lengua":
+            Mensaje.innerHTML = "Las notas más altas son Matemática y Lengua";
+            break;
+        case "matematica_efsi":
+            Mensaje.innerHTML = "Las notas más altas son Matemática y EFSI";
+            break;
+        case "lengua_efsi":
+            Mensaje.innerHTML = "Las notas más altas son Lengua y EFSI";
+            break;
+        default:
+            Mensaje.innerHTML = "Error en los datos ingresados";
+    }
+}
 document.querySelector("form").addEventListener("submit", ValidarForm);

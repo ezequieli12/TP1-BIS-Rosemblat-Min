@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <form method="post" action="index.html">
@@ -24,7 +24,9 @@
             <p id="MensajeC">La nota es de 1 a 10</p>
         </div>
         <p id="Resultado"></p>
-        <button value="Guardar" >Calcular</button>
+        <button type="button" onclick="CalcularPromedio()">Calcular</button>
+        <p id="MensajeFin"></p>
+        <button type="button" onclick="NotaMasAlta()">Mas Alta</button>
     </form>
     <script src="js/script.js"></script>
 </body>
