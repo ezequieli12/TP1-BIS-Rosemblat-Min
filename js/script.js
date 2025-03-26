@@ -2,7 +2,7 @@ function ErrorAlValidarMatematica()
 {
     let Mensaje = document.getElementById("MensajeA");
     var Matematica = document.getElementById("Matematica");
-    if (Matematica.value <= 10 && Matematica.value >= 1)
+    if (Matematica.value <= 10 && Matematica.value >= 1 && Matematica.value != NaN)
     {
         Mensaje.innerHTML = "";
         return true;
@@ -14,7 +14,7 @@ function ErrorAlValidarLengua()
 {
     let Mensaje = document.getElementById("MensajeB");
     var Lengua = document.getElementById("Lengua");
-    if (Lengua.value <= 10 && Lengua.value >= 1)
+    if (Lengua.value <= 10 && Lengua.value >= 1 && Lengua.value != NaN)
     {
         Mensaje.innerHTML = "";
         return true;
@@ -22,11 +22,11 @@ function ErrorAlValidarLengua()
     Mensaje.innerHTML = "La nota es de 1 a 10";
     return false;
 }
-function ErrorAlValidarEFSI() 
+function ErrorAlValidarEFSI()
 {
     let Mensaje = document.getElementById("MensajeC");
     var EFSI = document.getElementById("EFSI");
-    if (EFSI.value <= 10 && EFSI.value >= 1)
+    if (EFSI.value <= 10 && EFSI.value >= 1 && EFSI.value != NaN)
     {
         Mensaje.innerHTML = "";
         return true;
@@ -34,18 +34,28 @@ function ErrorAlValidarEFSI()
     Mensaje.innerHTML = "La nota es de 1 a 10";
     return false;
 }
-function ValidarForm(event)
+function ValidarCalculo(event)
 {
-    let Mensaje = document.getElementById("Resultado");
     if (!ErrorAlValidarMatematica() || !ErrorAlValidarLengua() || !ErrorAlValidarEFSI())
     {
         event.preventDefault();
         alert("Por favor, complete correctamente todos los campos");
     }
     else
-    {
+    {  
         CalcularPromedio();
-        Mensaje.innerHTML = "El resultado es " + Promedio;
+    }
+}
+function ValidarMayorNota(event)
+{
+    if (!ErrorAlValidarMatematica() || !ErrorAlValidarLengua() || !ErrorAlValidarEFSI())
+    {
+        event.preventDefault();
+        alert("Por favor, complete correctamente todos los campos");
+    }
+    else
+    {  
+        NotaMasAlta()
     }
 }
 function CalcularPromedio()
@@ -100,4 +110,4 @@ function NotaMasAlta()
             Mensaje.innerHTML = "Error en los datos ingresados";
     }
 }
-document.querySelector("form").addEventListener("submit", ValidarForm);
+document.querySelector("form").addEventListener("submit", ValidarCalculo);
