@@ -55,3 +55,4 @@ function CalcularPromedio()
     var EFSI = document.getElementById("Matematica");
     Promedio=  (EFSI.value + Lengua.value + Matematica.value) / 3;
 } 
+document.querySelector("form").addEventListener("submit", ValidarForm);
