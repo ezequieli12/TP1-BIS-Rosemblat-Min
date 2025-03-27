@@ -1,113 +1,60 @@
-function ErrorAlValidarMatematica() 
-{
-    let Mensaje = document.getElementById("MensajeA");
-    var Matematica = document.getElementById("Matematica");
-    if (Matematica.value <= 10 && Matematica.value >= 1 && Matematica.value != NaN)
-    {
-        Mensaje.innerHTML = "";
-        return true;
-    }
-    Mensaje.innerHTML = "La nota es de 1 a 10";
-    return false;
-}
-function ErrorAlValidarLengua() 
-{
-    let Mensaje = document.getElementById("MensajeB");
-    var Lengua = document.getElementById("Lengua");
-    if (Lengua.value <= 10 && Lengua.value >= 1 && Lengua.value != NaN)
-    {
-        Mensaje.innerHTML = "";
-        return true;
-    }
-    Mensaje.innerHTML = "La nota es de 1 a 10";
-    return false;
-}
-function ErrorAlValidarEFSI()
-{
-    let Mensaje = document.getElementById("MensajeC");
-    var EFSI = document.getElementById("EFSI");
-    if (EFSI.value <= 10 && EFSI.value >= 1 && EFSI.value != NaN)
-    {
-        Mensaje.innerHTML = "";
-        return true;
-    }
-    Mensaje.innerHTML = "La nota es de 1 a 10";
-    return false;
-}
-function ValidarCalculo(event)
-{
-    if (!ErrorAlValidarMatematica() || !ErrorAlValidarLengua() || !ErrorAlValidarEFSI())
-    {
-        event.preventDefault();
-        alert("Por favor, complete correctamente todos los campos");
-    }
-    else
-    {  
-        CalcularPromedio();
-    }
-}
-function ValidarMayorNota(event)
-{
-    if (!ErrorAlValidarMatematica() || !ErrorAlValidarLengua() || !ErrorAlValidarEFSI())
-    {
-        event.preventDefault();
-        alert("Por favor, complete correctamente todos los campos");
-    }
-    else
-    {  
-        NotaMasAlta()
-    }
-}
-function CalcularPromedio()
-{
-    let Mensaje = document.getElementById("Resultado");
-    var Matematica = parseFloat(document.getElementById("Matematica").value);
-    var Lengua = parseFloat(document.getElementById("Lengua").value);
-    var EFSI = parseFloat(document.getElementById("EFSI").value);
-    var Promedio =  (Matematica  + Lengua + EFSI)/ 3;
-    Mensaje.innerHTML = "El resultado es " + Promedio;
-} 
-function NotaMasAlta()
-{
-    let Mensaje = document.getElementById("MensajeFin");
-    var Matematica = parseFloat(document.getElementById("Matematica").value);
-    var Lengua = parseFloat(document.getElementById("Lengua").value);
-    var EFSI = parseFloat(document.getElementById("EFSI").value);
+function validarNota(id, mensajeId) {
+    let mensaje = document.getElementById(mensajeId);
+    let valor = document.getElementById(id).value.trim();
+    let numero = parseFloat(valor);
     
-    let caso = (Matematica === Lengua && Matematica === EFSI) ? "todas_iguales" :
-               (Matematica > Lengua && Matematica > EFSI) ? "matematica" :
-               (Lengua > Matematica && Lengua > EFSI) ? "lengua" :
-               (EFSI > Matematica && EFSI > Lengua) ? "efsi" :
-               (Matematica === Lengua && Matematica > EFSI) ? "matematica_lengua" :
-               (Matematica === EFSI && Matematica > Lengua) ? "matematica_efsi" :
-               (Lengua === EFSI && Lengua > Matematica) ? "lengua_efsi" :
-               "ninguno"; 
-
-    switch (caso)
-    {
-        case "todas_iguales":
-            Mensaje.innerHTML = "Todas las notas son iguales";
-            break;
-        case "matematica":
-            Mensaje.innerHTML = "La nota más alta es Matemática";
-            break;
-        case "lengua":
-            Mensaje.innerHTML = "La nota más alta es Lengua";
-            break;
-        case "efsi":
-            Mensaje.innerHTML = "La nota más alta es EFSI";
-            break;
-        case "matematica_lengua":
-            Mensaje.innerHTML = "Las notas más altas son Matemática y Lengua";
-            break;
-        case "matematica_efsi":
-            Mensaje.innerHTML = "Las notas más altas son Matemática y EFSI";
-            break;
-        case "lengua_efsi":
-            Mensaje.innerHTML = "Las notas más altas son Lengua y EFSI";
-            break;
-        default:
-            Mensaje.innerHTML = "Error en los datos ingresados";
+    if (!valor || isNaN(numero) || numero < 1 || numero > 10) {
+        mensaje.innerHTML = "La nota debe ser un número entre 1 y 10";
+        return false;
     }
+    
+    mensaje.innerHTML = "";
+    return true;
 }
-document.querySelector("form").addEventListener("submit", ValidarCalculo);
+
+function validarEntradas() {
+    return validarNota("Matematica", "MensajeA") &&
+           validarNota("Lengua", "MensajeB") &&
+           validarNota("EFSI", "MensajeC");
+}
+
+function ValidarCalculo() {
+    if (!validarEntradas()) {
+        alert("Por favor, ingrese solo números entre 1 y 10 en todos los campos.");
+        return;
+    }
+    CalcularPromedio();
+}
+
+function ValidarMayorNota() {
+    if (!validarEntradas()) {
+        alert("Por favor, ingrese solo números entre 1 y 10 en todos los campos.");
+        return;
+    }
+    NotaMasAlta();
+}
+
+function CalcularPromedio() {
+    let mensaje = document.getElementById("Resultado");
+    let matematica = parseFloat(document.getElementById("Matematica").value);
+    let lengua = parseFloat(document.getElementById("Lengua").value);
+    let efsi = parseFloat(document.getElementById("EFSI").value);
+    let promedio = (matematica + lengua + efsi) / 3;
+    mensaje.innerHTML = "El resultado es " + promedio.toFixed(2);
+}
+
+function NotaMasAlta() {
+    let mensaje = document.getElementById("MensajeFin");
+    let matematica = parseFloat(document.getElementById("Matematica").value);
+    let lengua = parseFloat(document.getElementById("Lengua").value);
+    let efsi = parseFloat(document.getElementById("EFSI").value);
+    
+    let maxNota = Math.max(matematica, lengua, efsi);
+    let materias = [];
+    
+    if (matematica === maxNota) materias.push("Matemática");
+    if (lengua === maxNota) materias.push("Lengua");
+    if (efsi === maxNota) materias.push("EFSI");
+    
+    mensaje.innerHTML = "La(s) nota(s) más alta(s) es(son): " + materias.join(" y ");
+}
